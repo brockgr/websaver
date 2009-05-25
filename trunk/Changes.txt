@@ -1,0 +1,9 @@
+2008/03/21 v2.1
+    - Added sudden motion sensor support on suitable hardware (thanks to the 
+	  UniMotion http://sourceforge.net/projects/unimotion library).
+	  The angle of the machine will be sent as (up, down, left, right) cursor
+	  input to the loaded page. This might be usefull for scrolling pages 
+	  without waking from screenaver.
+
+2008/02/26 v2.0
+    - Bumped major version number for initial public release
