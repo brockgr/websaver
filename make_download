@@ -1,0 +1,29 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use FindBin qw($Bin);
+use File::Copy qw(copy);
+use File::Temp qw(tempdir);
+
+
+my $tag = "trunk";
+
+my $version = 0 || die "Cauld not get version from websaver";
+
+print "Creating [websaver-$version.tgz]\n";
+
+mkdir "websaver-$version" || die "mkdir: $!";
+
+#TODO - add build commands
+#TODO - add disk imae commands
+
+system("$Bin/support/googlecode_upload.py", "--summary", "websaver v$version", "--labels", "OpSys-OSX,Type-Archive", "--project", "websaver", "websaver-$version.tgz")
+   && die "Upload returned: $?";
+
+print "Done.\n";
+
+exit 0;
+
+# vim: expandtab sw=4 ts=4 sts=4:
+
