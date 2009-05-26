@@ -1,3 +1,7 @@
+2009/05/26 v2.2
+    - Repackaged and rebuilt for Google Code
+	- No feature/bug changes
+	
 2008/03/21 v2.1
     - Added sudden motion sensor support on suitable hardware (thanks to the 
 	  UniMotion http://sourceforge.net/projects/unimotion library).
