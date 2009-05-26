@@ -3,22 +3,25 @@
 use strict;
 use warnings;
 use FindBin qw($Bin);
-use File::Copy qw(copy);
-use File::Temp qw(tempdir);
 
-
+my $app = "websaver";
 my $tag = "trunk";
 
-my $version = 0 || die "Cauld not get version from websaver";
+`grep -A1 CFBundleShortVersionString $tag/Info.plist` =~ /<string>([\d\.]+)<\/string>/;
 
-print "Creating [websaver-$version.tgz]\n";
+my $version = $1 || die "Cauld not get version from $app";
+print "Creating [$app-$version.dmg]\n";
 
-mkdir "websaver-$version" || die "mkdir: $!";
+system("cd $tag && xcodebuild -alltargets clean")
+    && die "Clean failed: $?";
 
-#TODO - add build commands
-#TODO - add disk imae commands
+system("cd $tag && xcodebuild -alltargets");
+    && die "Build failed: $?";
 
-system("$Bin/support/googlecode_upload.py", "--summary", "websaver v$version", "--labels", "OpSys-OSX,Type-Archive", "--project", "websaver", "websaver-$version.tgz")
+system("hdiutil create -srcfolder $tag/build/Release -volname $app-$version $app-$version.dmg");
+    && die "Disk image failed: $?";
+
+system("$Bin/support/googlecode_upload.py", "--summary", "$app v$version", "--labels", "OpSys-OSX,Type-Archive", "--project", "$app", "$app-$version.dmg")
    && die "Upload returned: $?";
 
 print "Done.\n";
