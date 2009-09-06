@@ -1,3 +1,6 @@
+2009/09/06 v2.3
+	- Rebuild for Snow Leopard 10.6
+
 2009/05/26 v2.2
     - Repackaged and rebuilt for Google Code
 	- No feature/bug changes
