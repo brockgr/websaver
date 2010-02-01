@@ -215,15 +215,21 @@ static int probe_sms(int kernFunc, char *servMatch, int dataType, void *data)
     memset(&inputStructure, 0, sizeof(union motion_data));
     memset(outputStructure, 0, sizeof(union motion_data));
 
-	// TODO - If def this
-	
-	// 10.4- style
-    // result = IOConnectMethodStructureIStructureO(dataPort, kernFunc, structureInputSize,
-	//        &structureOutputSize, &inputStructure, outputStructure);
-
-	// 10.5+ style 
-	result = IOConnectCallStructMethod(dataPort, kernFunc, &inputStructure, structureInputSize,
-			outputStructure, (size_t *) &structureOutputSize);
+#if !defined(__LP64__)
+    // Check if Mac OS X 10.5 API is available...
+    if (IOConnectCallMethod != NULL) {
+        // ...and use it if it is.
+#endif
+		result = IOConnectCallStructMethod(dataPort, kernFunc, &inputStructure, structureInputSize,
+				outputStructure, (size_t *) &structureOutputSize);
+#if !defined(__LP64__)
+    }
+    else {
+        // Otherwise fall back to older API.		
+		result = IOConnectMethodStructureIStructureO(dataPort, kernFunc, structureInputSize,
+			  &structureOutputSize, &inputStructure, outputStructure);
+    }
+#endif
 		
 	
     IOServiceClose(dataPort);
