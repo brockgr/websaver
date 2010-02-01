@@ -1,3 +1,6 @@
+2010/02/01 v2.4
+	- Patched UniMotion to support 64bit IOKit
+
 2009/09/06 v2.3
 	- Rebuild for Snow Leopard 10.6
 
