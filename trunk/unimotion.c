@@ -215,9 +215,17 @@ static int probe_sms(int kernFunc, char *servMatch, int dataType, void *data)
     memset(&inputStructure, 0, sizeof(union motion_data));
     memset(outputStructure, 0, sizeof(union motion_data));
 
-    result = IOConnectMethodStructureIStructureO(dataPort, kernFunc, structureInputSize,
-            &structureOutputSize, &inputStructure, outputStructure);
+	// TODO - If def this
+	
+	// 10.4- style
+    // result = IOConnectMethodStructureIStructureO(dataPort, kernFunc, structureInputSize,
+	//        &structureOutputSize, &inputStructure, outputStructure);
 
+	// 10.5+ style 
+	result = IOConnectCallStructMethod(dataPort, kernFunc, &inputStructure, structureInputSize,
+			outputStructure, (size_t *) &structureOutputSize);
+		
+	
     IOServiceClose(dataPort);
 
     if (result != KERN_SUCCESS) {
