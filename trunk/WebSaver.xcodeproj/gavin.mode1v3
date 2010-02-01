@@ -267,15 +267,20 @@
 								<string>863E1E560FCBAA150013CEA7</string>
 								<string>32DBCFA70370C4F300C91783</string>
 								<string>089C167CFE841241C02AAC07</string>
+								<string>089C1671FE841209C02AAC07</string>
 								<string>19C28FB8FE9D52D311CA2CBB</string>
 								<string>8D255AD30486D3F9007BF209</string>
+								<string>86615D201116A76F00E4F42B</string>
 								<string>1C37FBAC04509CD000000102</string>
+								<string>86615D741116BA2E00E4F42B</string>
+								<string>86615D751116BA2E00E4F42B</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>0</integer>
+									<integer>23</integer>
+									<integer>22</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -300,7 +305,7 @@
 							<real>294</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>152 126 1124 752 0 0 1440 878 </string>
+						<string>335 -146 1124 752 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -328,7 +333,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>86615D4D1116B01B00E4F42B</string>
+										<string>86615D761116BA2E00E4F42B</string>
 										<key>history</key>
 										<array>
 											<string>863E1E700FCBAAA00013CEA7</string>
@@ -348,7 +353,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {786, 351}}</string>
 								<key>RubberWindowFrame</key>
-								<string>152 126 1124 752 0 0 1440 878 </string>
+								<string>335 -146 1124 752 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -370,7 +375,7 @@
 								<key>Frame</key>
 								<string>{{0, 356}, {786, 355}}</string>
 								<key>RubberWindowFrame</key>
-								<string>152 126 1124 752 0 0 1440 878 </string>
+								<string>335 -146 1124 752 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -534,7 +539,7 @@
 		<string>/Users/gavin/Hacking/websaver/trunk/WebSaver.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>152 126 1124 752 0 0 1440 878 </string>
+	<string>335 -146 1124 752 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -564,7 +569,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {936, 281}}</string>
 								<key>RubberWindowFrame</key>
-								<string>504 85 936 563 0 0 1440 878 </string>
+								<string>459 136 936 563 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -590,7 +595,7 @@
 								<key>Frame</key>
 								<string>{{0, 286}, {936, 236}}</string>
 								<key>RubberWindowFrame</key>
-								<string>504 85 936 563 0 0 1440 878 </string>
+								<string>459 136 936 563 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -620,7 +625,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.buildV3</string>
 			<key>WindowString</key>
-			<string>504 85 936 563 0 0 1440 878 </string>
+			<string>459 136 936 563 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>863262240D6EB26D00901A79</string>
 			<key>WindowToolIsVisible</key>
