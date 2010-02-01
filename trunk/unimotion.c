@@ -165,7 +165,7 @@ static int probe_sms(int kernFunc, char *servMatch, int dataType, void *data)
     io_connect_t  dataPort;
 
     IOItemCount structureInputSize;
-    IOByteCount structureOutputSize;
+    size_t structureOutputSize;
 
     union motion_data inputStructure;
     union motion_data *outputStructure;
@@ -221,7 +221,7 @@ static int probe_sms(int kernFunc, char *servMatch, int dataType, void *data)
         // ...and use it if it is.
 #endif
 		result = IOConnectCallStructMethod(dataPort, kernFunc, &inputStructure, structureInputSize,
-				outputStructure, (size_t *) &structureOutputSize);
+				outputStructure, &structureOutputSize);
 #if !defined(__LP64__)
     }
     else {
