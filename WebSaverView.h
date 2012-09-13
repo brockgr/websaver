@@ -23,6 +23,7 @@
 #include "unimotion.h"
 
 
+
 @interface WebSaverView : ScreenSaverView 
 {
     WebView *webView;
@@ -50,6 +51,25 @@
 }
 @end
 
+
+@implementation NSURL (Additions)
+
+- (NSURL *)URLByAppendingQueryString:(NSString *)queryString {
+    if (![queryString length]) {
+        return self;
+    }
+    
+    NSString *URLString = [[NSString alloc] initWithFormat:@"%@%@%@", [self absoluteString],
+                           [self query] ? @"&" : @"?", queryString];
+    NSURL *theURL = [NSURL URLWithString:URLString];
+    [URLString release];
+    return theURL;
+}
+
+@end
+
+
+        
 @interface WebView (WebKitStuffThatShouldBeAPI)
     - (void)setDrawsBackground:(BOOL)drawsBackground;
 @end

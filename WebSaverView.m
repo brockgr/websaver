@@ -19,14 +19,15 @@
 //
 
 // Cheesy Debugging toggle
-#define DebugLog //
-//#define DebugLog NSLog
+//#define DebugLog //
+#define DebugLog NSLog
 
 
 #import "WebSaverView.h"
 
 static NSString * const MyModuleName = @"org.brock-family.WebSaver";
 static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
+
 
 @implementation WebSaverView
 
@@ -74,7 +75,8 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
-	DebugLog(@"webView:initWithFrame isPreview:%d", isPreview);
+        
+    DebugLog(@"webView:initWithFrame isPreview:%d", isPreview);
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
 	
@@ -123,7 +125,6 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 		[webView setFrameLoadDelegate:self];
 		
 		[self addSubview:webView];
-
 	}
 
     return self;
@@ -140,10 +141,14 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 
 
 - (void)startAnimation
-{
+{ 
+    NSString *url;
+    NSScreen *screen;
+    
 	DebugLog(@"webView:startAnimation");
     [super startAnimation];
 
+    
 	// Calibrate 'natural' positon with 20 readings
 	if (enableSMSBool && sms_type) {
 		int loop;	
@@ -161,8 +166,19 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 		DebugLog(@"SMS Average - x = %d, y = %d, z = %d", avgx, avgy, avgz);
 	}
 
-	// Reload the page and reset load time 
-	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:saverURLString]]];
+    
+    screen = [ [webView window] screen ];
+    DebugLog(@"Screen %@", [screen description]);
+    url = [NSString stringWithFormat: @"%@?x=%.0f&y=%.0f&w=%.0f&h=%.0f&screen=%i&srand=%i", saverURLString,
+           [screen frame].origin.x,   [screen frame].origin.y,
+           [screen frame].size.width, [screen frame].size.height,
+           (int)[[NSScreen screens] indexOfObject: screen]
+           (int)time(0)/60 ];
+    DebugLog(@"URL with query: %@", url );
+    
+    
+	// Reload the page and reset load time
+	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:url]]];
 	lastLoad = [[NSDate alloc] init];
 	NSLog(@"reloaded %@",[lastLoad description]);
 
