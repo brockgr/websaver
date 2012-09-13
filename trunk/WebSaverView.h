@@ -48,26 +48,11 @@
 	IBOutlet id enableSMS;
 	bool enableSMSBool;
 
+    IBOutlet id enableMultiMonitor;
+	bool enableMultiMonitorBool;
+
 }
 @end
-
-
-@implementation NSURL (Additions)
-
-- (NSURL *)URLByAppendingQueryString:(NSString *)queryString {
-    if (![queryString length]) {
-        return self;
-    }
-    
-    NSString *URLString = [[NSString alloc] initWithFormat:@"%@%@%@", [self absoluteString],
-                           [self query] ? @"&" : @"?", queryString];
-    NSURL *theURL = [NSURL URLWithString:URLString];
-    [URLString release];
-    return theURL;
-}
-
-@end
-
 
         
 @interface WebView (WebKitStuffThatShouldBeAPI)

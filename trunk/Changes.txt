@@ -1,3 +1,7 @@
+2012/09/12 v2.6
+	- Params passing for multimonitor
+
+
 2010/02/02 v2.5
 	- Turned on Garbage Collection to support 64bit 
 	  (http://lists.apple.com/archives/cocoa-dev/2009/Oct/msg00792.html)
