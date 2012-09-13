@@ -99,6 +99,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 			@"NO",                     @"EnableReload",
 			@"300",                    @"ReloadTime",
 			@"NO",                     @"EnableSMS",
+            @"NO",                     @"EnableMultiMonitor",
 			nil ]];
 		
 		[self setAnimationTimeInterval:0.5];
@@ -114,7 +115,10 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 
 		enableSMSBool = [defaults boolForKey:@"EnableSMS"];
 		DebugLog(@"Will use SMS: %d", enableSMSBool);
-
+        
+		enableMultiMonitorBool = [defaults boolForKey:@"EnableMultiMonitor"];
+		DebugLog(@"Will use MultiMonitor: %d", enableMultiMonitorBool);
+        
 		webView = [[WebView alloc] initWithFrame:frame];
 		[webView setDrawsBackground:NO];
 
@@ -166,15 +170,18 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 		DebugLog(@"SMS Average - x = %d, y = %d, z = %d", avgx, avgy, avgz);
 	}
 
-    
-    screen = [ [webView window] screen ];
-    DebugLog(@"Screen %@", [screen description]);
-    url = [NSString stringWithFormat: @"%@?x=%.0f&y=%.0f&w=%.0f&h=%.0f&screen=%i&srand=%i", saverURLString,
-           [screen frame].origin.x,   [screen frame].origin.y,
-           [screen frame].size.width, [screen frame].size.height,
-           (int)[[NSScreen screens] indexOfObject: screen]
-           (int)time(0)/60 ];
-    DebugLog(@"URL with query: %@", url );
+    if (enableMultiMonitorBool) {
+        screen = [ [webView window] screen ];
+        DebugLog(@"Screen %@", [screen description]);
+        url = [NSString stringWithFormat: @"%@?x=%.0f&y=%.0f&w=%.0f&h=%.0f&screen=%i&srand=%i", saverURLString,
+               [screen frame].origin.x,   [screen frame].origin.y,
+               [screen frame].size.width, [screen frame].size.height,
+               (int)[[NSScreen screens] indexOfObject: screen],
+               (int)time(0)/60 ];
+        DebugLog(@"URL with query: %@", url );
+    } else {
+        url = saverURLString;
+    }
     
     
 	// Reload the page and reset load time
@@ -311,6 +318,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 	[enableReload setState:enableReloadBool];
 	[reloadTime selectItemWithTag:reloadTimeFloat];
 	[enableSMS setState:enableSMSBool];
+	[enableMultiMonitor setState:enableMultiMonitorBool];
 	[reloadTime setEnabled:[enableReload state]];
 	[enableSMS setEnabled:sms_type ? true : false];
 
@@ -345,6 +353,8 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 	NSLog(@"Set Reload Time: %d", reloadTimeFloat);
 	enableSMSBool = [enableSMS state];
 	NSLog(@"Set Use SMS: %d", enableSMSBool);
+	enableMultiMonitorBool = [enableMultiMonitor state];
+	NSLog(@"Set Use Multi Monitor: %d", enableMultiMonitorBool);
 
 
 	// Save the Settings
@@ -353,7 +363,8 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 	[defaults setObject:saverURLString  forKey:@"URL"];
 	[defaults setBool:enableReloadBool  forKey:@"EnableReload"];
 	[defaults setFloat:reloadTimeFloat  forKey:@"ReloadTime"];
-	[defaults setBool:enableSMSBool  forKey:@"EnableSMS"];
+	[defaults setBool:enableSMSBool     forKey:@"EnableSMS"];
+	[defaults setBool:enableMultiMonitorBool forKey:@"EnableMultiMonitor"];
 	[defaults synchronize];
 	
 	// Reload the page and reset load time 
