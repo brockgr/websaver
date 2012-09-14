@@ -148,6 +148,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 { 
     NSString *url;
     NSScreen *screen;
+    int srand_time = 15;
     
 	DebugLog(@"webView:startAnimation");
     [super startAnimation];
@@ -177,7 +178,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
                [screen frame].origin.x,   [screen frame].origin.y,
                [screen frame].size.width, [screen frame].size.height,
                (int)[[NSScreen screens] indexOfObject: screen],
-               (int)time(0)/60 ];
+               ((int)time(0)+(srand_time/2)/srand_time) ];
         DebugLog(@"URL with query: %@", url );
     } else {
         url = saverURLString;
