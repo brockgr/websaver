@@ -1,6 +1,9 @@
-2012/09/12 v2.6
-	- Params passing for multimonitor
+2015/07/01 v2.7
+    - WebGL support
+    - Misc xcode cleanup
 
+2012/09/12 v2.6
+    - Params passing for multimonitor
 
 2010/02/02 v2.5
 	- Turned on Garbage Collection to support 64bit 
