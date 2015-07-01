@@ -111,7 +111,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 		DebugLog(@"Will Reload: %d", enableReloadBool);
 		
 		reloadTimeFloat = [defaults floatForKey:@"ReloadTime"];
-		DebugLog(@"Reload Time: %d", reloadTimeFloat);
+		DebugLog(@"Reload Time: %ld", reloadTimeFloat);
 
 		enableSMSBool = [defaults boolForKey:@"EnableSMS"];
 		DebugLog(@"Will use SMS: %d", enableSMSBool);
@@ -123,10 +123,13 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 		[webView setDrawsBackground:NO];
         [webView setCustomUserAgent:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8) AppleWebKit/536.25 (KHTML, like Gecko) Version/6.0 Safari/536.25"];
         
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wundeclared-selector"
         WebPreferences *preferences = [webView preferences];
         if([preferences respondsToSelector:@selector(setWebGLEnabled:)]){
             [preferences performSelector:@selector(setWebGLEnabled:) withObject:[NSNumber numberWithBool:YES]];
         }
+        #pragma clang diagnostic pop
 
 
 		if (isPreview) {
@@ -199,7 +202,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 {
 	DebugLog(@"webView:stopAnimation");
 	
-    [self loadUrl];
+    [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:"]]];
 
     [super stopAnimation];
 }
@@ -350,7 +353,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 	enableReloadBool = [enableReload state];
 	NSLog(@"Set Will Reload: %d", enableReloadBool);
 	reloadTimeFloat = [[reloadTime selectedItem] tag];
-	NSLog(@"Set Reload Time: %d", reloadTimeFloat);
+	NSLog(@"Set Reload Time: %ld", reloadTimeFloat);
 	enableSMSBool = [enableSMS state];
 	NSLog(@"Set Use SMS: %d", enableSMSBool);
 	enableMultiMonitorBool = [enableMultiMonitor state];
@@ -377,10 +380,9 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
     // Reload the page and reset load time
     NSMutableURLRequest *request =
     [NSMutableURLRequest requestWithURL:[NSURL URLWithString:saverURLString]];
-    [request setHTTPMethod:@"POST"];
     
-//    NSString *postString = @"Some post string";
-//    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+    //TODO - add this to menu
+    //[request setHTTPMethod:@"POST"];
     
     [[webView mainFrame] loadRequest:request];
     lastLoad = [[NSDate alloc] init];

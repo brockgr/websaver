@@ -309,7 +309,7 @@ int read_sms_raw(int type, int *x, int *y, int *z)
 int read_sms(int type, int *x, int *y, int *z)
 {
     int _x, _y, _z;
-    int xoff, yoff, zoff;
+    long xoff, yoff, zoff;
     Boolean ok;
     int ret;
 
@@ -357,7 +357,7 @@ static Boolean getPrefDouble(CFStringRef key, CFStringRef app, double *val)
 int read_sms_real(int type, double *x, double *y, double *z)
 {
     int _x, _y, _z;
-    int xscale, yscale, zscale;
+    long xscale, yscale, zscale;
     double xreal, yreal, zreal;
     int ret;
     Boolean ok;

@@ -43,7 +43,7 @@
 	bool enableReloadBool;
 
 	IBOutlet NSPopUpButton *reloadTime;
-	int reloadTimeFloat;
+	long reloadTimeFloat;
 	
 	IBOutlet id enableSMS;
 	bool enableSMSBool;
