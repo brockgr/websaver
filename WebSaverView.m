@@ -190,12 +190,8 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
     } else {
         url = saverURLString;
     }
-    
-    
-	// Reload the page and reset load time
-	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:url]]];
-	lastLoad = [[NSDate alloc] init];
-	NSLog(@"reloaded %@",[lastLoad description]);
+        
+    [self loadUrl];
 
 }
 
@@ -203,10 +199,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 {
 	DebugLog(@"webView:stopAnimation");
 	
-	// Reload the page and reset load time 
-	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:"]]];
-	lastLoad = [[NSDate alloc] init];
-	DebugLog(@"reloaded %@",[lastLoad description]);
+    [self loadUrl];
 
     [super stopAnimation];
 }
@@ -374,13 +367,26 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 	[defaults setBool:enableMultiMonitorBool forKey:@"EnableMultiMonitor"];
 	[defaults synchronize];
 	
-	// Reload the page and reset load time 
-	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:saverURLString]]];
-	lastLoad = [[NSDate alloc] init];
-	DebugLog(@"reloaded %@",[lastLoad description]);
-
+    [self loadUrl];
+    
 	// Close the window
 	[[NSApplication sharedApplication] endSheet:configSheet];
 }
+- (void)loadUrl
+{
+    // Reload the page and reset load time
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:saverURLString]];
+    [request setHTTPMethod:@"POST"];
+    
+//    NSString *postString = @"Some post string";
+//    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [[webView mainFrame] loadRequest:request];
+    lastLoad = [[NSDate alloc] init];
+    DebugLog(@"reloaded %@",[lastLoad description]);
+    
+}
+
 
 @end
