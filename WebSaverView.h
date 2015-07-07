@@ -26,7 +26,7 @@
 
 @interface WebSaverView : ScreenSaverView 
 {
-    WebView *webView;
+    WKWebView *webView;
 	NSDate *lastLoad;
 	
 	// Motion Sensor Related
