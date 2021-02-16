@@ -31,42 +31,42 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 
 @implementation WebSaverView
 
-- (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
+- (void)webView:(WKWebView *)sender didStartProvisionalLoadForFrame:(WKWebView *)frame
 {
 	DebugLog(@"webView:didStartProvisionalLoadForFrame: %@", frame);
 }
 
-- (void)webView:(WebView *)sender didCommitLoadForFrame:(WebFrame *)frame
+- (void)webView:(WKWebView *)sender didCommitLoadForFrame:(WKWebView *)frame
 {
 	DebugLog(@"webView:didCommitLoadForFrame");
 }
 
-- (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
+- (void)webView:(WKWebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WKWebView *)frame
 {
 	DebugLog(@"webView:didFailLoadWithError: %@", error);
 }
 
-- (void)webView:(WebView *)sender didFailProvisionalLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
+- (void)webView:(WKWebView *)sender didFailProvisionalLoadWithError:(NSError *)error forFrame:(WKWebView *)frame
 {
 	DebugLog(@"webView:didFailProvisionalLoadWithError: %@", error);
 }
 
-- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
+- (void)webView:(WKWebView *)sender didFinishLoadForFrame:(WKWebView *)frame
 {
 	DebugLog(@"webView:didFinishLoadForFrame");
 }
 
-- (void)webView:(WebView *)sender didReceiveIcon:(NSImage *)image forFrame:(WebFrame *)frame
+- (void)webView:(WKWebView *)sender didReceiveIcon:(NSImage *)image forFrame:(WKWebView *)frame
 {
 	DebugLog(@"webView:didReceiveIcon");
 }
 
-- (void)webView:(WebView *)sender serverRedirectedForDataSource:(WebFrame *)frame
+- (void)webView:(WKWebView *)sender serverRedirectedForDataSource:(WKWebView *)frame
 {
 	DebugLog(@"webView:serverRedirectedForDataSource");
 }
 
-- (void)webView:(WebView *)sender didReceiveTitle:(NSString *)title forFrame:(WebFrame *)frame
+- (void)webView:(WKWebView *)sender didReceiveTitle:(NSString *)title forFrame:(WKWebView *)frame
 {
 	NSLog(@"webView:didReceiveTitle: %@", title);
 }
@@ -119,25 +119,14 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 		enableMultiMonitorBool = [defaults boolForKey:@"EnableMultiMonitor"];
 		DebugLog(@"Will use MultiMonitor: %d", enableMultiMonitorBool);
         
-		webView = [[WebView alloc] initWithFrame:frame];
-		[webView setDrawsBackground:NO];
+		webView = [[WKWebView alloc] initWithFrame:frame];
+//		[webView setDrawsBackground:NO];
         [webView setCustomUserAgent:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8) AppleWebKit/536.25 (KHTML, like Gecko) Version/6.0 Safari/536.25"];
-        
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wundeclared-selector"
-        WebPreferences *preferences = [webView preferences];
-        if([preferences respondsToSelector:@selector(setWebGLEnabled:)]){
-            [preferences performSelector:@selector(setWebGLEnabled:) withObject:[NSNumber numberWithBool:YES]];
-        }
-        #pragma clang diagnostic pop
 
-
-		if (isPreview) {
+        if (isPreview) {
 			[self scaleUnitSquareToSize:NSMakeSize( 0.25, 0.25 )];
 		}
 
-		[webView setFrameLoadDelegate:self];
-		
 		[self addSubview:webView];
 	}
 
@@ -162,7 +151,6 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
     
 	DebugLog(@"webView:startAnimation");
     [super startAnimation];
-
     
 	// Calibrate 'natural' positon with 20 readings
 	if (enableSMSBool && sms_type) {
@@ -202,22 +190,14 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 {
 	DebugLog(@"webView:stopAnimation");
 	
-    [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:"]]];
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:"]]];
 
     [super stopAnimation];
 }
 
-/*
-- (void)drawRect:(NSRect)rect
-{
-	// TOO VERBOSE // DebugLog(@"webView:drawRect");
-	[super drawRect:rect];
-}
-*/
-
 - (void)doKeyUp:(NSTimer*)theTimer {
 	//DebugLog(@"doKeyUp");
-	[[NSApplication sharedApplication] sendEvent:[NSEvent keyEventWithType:NSKeyUp 
+    [[NSApplication sharedApplication] sendEvent:[NSEvent keyEventWithType:NSEventTypeKeyUp
 		location:      NSMakePoint(1,1)
 		modifierFlags: 0
 		timestamp:     [[NSDate date] timeIntervalSinceReferenceDate]
@@ -232,7 +212,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 
 - (void)doKeyDown:(NSTimer*)theTimer {
 	//DebugLog(@"doKeyDown");
-	[[NSApplication sharedApplication] sendEvent:[NSEvent keyEventWithType:NSKeyDown 
+    [[NSApplication sharedApplication] sendEvent:[NSEvent keyEventWithType:NSEventTypeKeyDown
 		location:      NSMakePoint(1,1)
 		modifierFlags: 0
 		timestamp:     [[NSDate date] timeIntervalSinceReferenceDate]
@@ -251,7 +231,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 	if (enableReloadBool) {
 		// DebugLog(@"time %f", [lastLoad timeIntervalSinceNow]);
 		if (reloadTimeFloat + [lastLoad timeIntervalSinceNow] < 0) {
-			[[webView mainFrame] reload];
+            [webView reload];
 			lastLoad = [[NSDate alloc] init];
 			DebugLog(@"reloaded %@",[lastLoad description]);
 		}
@@ -302,11 +282,12 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 - (NSWindow*)configureSheet
 {
 	DebugLog(@"webView:configureSheet");
-
 	
-	if (!configSheet) { 
-		if (![NSBundle loadNibNamed:@"ConfigureSheet" owner:self]) {
-			NSLog( @"Failed to load configure sheet." ); 
+	if (!configSheet) {
+// This should remover the 10.8 waring - but then the sheet does not open
+// if (![[NSBundle mainBundle] loadNibNamed:@"ConfigureSheet" owner:self topLevelObjects:nil]) {
+        if (![NSBundle loadNibNamed:@"ConfigureSheet" owner:self]) {
+			NSLog( @"Failed to load configure sheet." );
 			NSBeep(); 
 		} 
 	}
@@ -384,10 +365,9 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
     //TODO - add this to menu
     //[request setHTTPMethod:@"POST"];
     
-    [[webView mainFrame] loadRequest:request];
+    [webView loadRequest:request];
     lastLoad = [[NSDate alloc] init];
     DebugLog(@"reloaded %@",[lastLoad description]);
-    
 }
 
 

@@ -23,15 +23,14 @@
 #include "unimotion.h"
 
 
-
 @interface WebSaverView : ScreenSaverView 
 {
-    WebView *webView;
+    WKWebView *webView;
 	NSDate *lastLoad;
 	
 	// Motion Sensor Related
 	int sms_type, avgx, avgy, avgz;
-
+    
 	IBOutlet id configSheet;
 
 	IBOutlet id versionLabel;
@@ -52,9 +51,4 @@
 	bool enableMultiMonitorBool;
 
 }
-@end
-
-        
-@interface WebView (WebKitStuffThatShouldBeAPI)
-    - (void)setDrawsBackground:(BOOL)drawsBackground;
 @end
