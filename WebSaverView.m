@@ -119,7 +119,7 @@ static NSString * upArrow, *downArrow, *leftArrow, *rightArrow;
 		enableMultiMonitorBool = [defaults boolForKey:@"EnableMultiMonitor"];
 		DebugLog(@"Will use MultiMonitor: %d", enableMultiMonitorBool);
         
-		webView = [[WKWebView alloc] initWithFrame:frame];
+		webView = [[WebView alloc] initWithFrame:frame];
 		[webView setDrawsBackground:NO];
         [webView setCustomUserAgent:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8) AppleWebKit/536.25 (KHTML, like Gecko) Version/6.0 Safari/536.25"];
         
