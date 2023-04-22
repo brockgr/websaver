@@ -1,3 +1,6 @@
+2023/04/21 v2.8
+    - Updated for macOS 10.13
+
 2015/07/01 v2.7
     - WebGL support
     - Misc xcode cleanup

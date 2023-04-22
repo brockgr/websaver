@@ -241,7 +241,7 @@ static int probe_sms(int kernFunc, char *servMatch, int dataType, void *data)
     return 1;
 }
 
-int detect_sms()
+int detect_sms(void)
 {
     int kernFunc;
     char *servMatch;
