@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Check out the source code for XCode
         uses: actions/checkout@v3
+      - name: Install `tree` using Homebrew
+        run: brew install tree
       - name: Tree the repository directory prior to the build
         run: tree -a
       - name: Build the XCode project
