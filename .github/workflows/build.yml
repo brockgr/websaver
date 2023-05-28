@@ -1,0 +1,40 @@
+name: build
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the source code for XCode
+        uses: actions/checkout@v3
+      - name: Build the XCode project
+        uses: sersoft-gmbh/xcodebuild-action@v2
+        with:
+          project: WebSaver.xcodeproj
+          scheme: WebSaver
+          action: build
+      - name: Upload the build directory as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: WebSaver
+          path: /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug
+      - name: Pack the build directory for release
+        run: |
+          cd /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug
+          zip -r ${{ github.workspace }}/WebSaver.zip .
+      # Note https://github.com/rickstaa/action-create-tag doesn't work on macOS
+      - name: Tag the repository
+        id: tag
+        run: |
+          # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
+          TAG=v$(date -Iseconds | sed 's/[T:\+]/-/g')
+          echo "$TAG"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          git tag -a $TAG -m "Published version $TAG" ${GITHUB_SHA}
+          git push origin $TAG
+      - name: Cut a new release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: WebSaver.zip
+          tag_name: ${{ steps.tag.outputs.tag }}
