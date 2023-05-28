@@ -21,7 +21,7 @@ jobs:
           name: WebSaver
           path: /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug
       - name: Pack the build directory for release
-        run: zip WebSaver.zip /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug/
+        run: zip -j WebSaver.zip /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug/
       # Note https://github.com/rickstaa/action-create-tag doesn't work on macOS
       - name: Tag the repository
         id: tag
