@@ -26,10 +26,12 @@ jobs:
         run: |
           # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
           TAG=$(date -Iseconds | sed 's/[T:\+]/-/g')
+          echo "$TAG"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
           git tag -a v$TAG -m "Published version $TAG" ${GITHUB_SHA}
           git push origin v$TAG
       - name: Cut a new release
         uses: softprops/action-gh-release@v1
         with:
           files: WebSaver.zip
-          tag_name: $TAG
+          tag_name: ${{ steps.vars.outputs.tag }}
