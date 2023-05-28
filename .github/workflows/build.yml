@@ -13,7 +13,6 @@ jobs:
         with:
           project: WebSaver.xcodeproj
           scheme: WebSaver
-          destination: platform=macOS
           action: build
       - name: Upload the build directory as an artifact
         uses: actions/upload-artifact@v3
