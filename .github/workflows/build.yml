@@ -22,7 +22,22 @@ jobs:
           path: /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug
       - name: Pack the build directory for release
         run: zip WebSaver.zip /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug/
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0.9.7
+      - name: Display SemVer
+        run: |
+          echo "SemVer: $GITVERSION_SEMVER" && echo "$version" && echo "$major.$minor.$patch"
+      - name: Create git tag
+        run: |
+          git tag $GITVERSION_SEMVER
+      - name: Push git tag
+        run: git push origin $GITVERSION_SEMVER 
       - name: Cut a new release
         uses: softprops/action-gh-release@v1
         with:
           files: WebSaver.zip
+          tag_name: $GITVERSION_SEMVER 
