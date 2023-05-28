@@ -3,6 +3,8 @@ on: [push]
 jobs:
   build:
     runs-on: macos-latest
+    permissions:
+      contents: write
     steps:
       - name: Check out the source code for XCode
         uses: actions/checkout@v3
@@ -18,3 +20,9 @@ jobs:
         with:
           name: WebSaver
           path: /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug
+      - name: Pack the build directory for release
+        run: zip WebSaver.zip /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug/
+      - name: Cut a new release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: WebSaver.zip
