@@ -26,11 +26,11 @@ jobs:
       - name: Tag the repository
         run: |
           # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
-          TAG=$(date -Iseconds | sed 's/[T:\+]/-/g')
+          TAG=v$(date -Iseconds | sed 's/[T:\+]/-/g')
           echo "$TAG"
-          echo "tag=v$TAG" >> $GITHUB_OUTPUT
-          git tag -a v$TAG -m "Published version $TAG" ${GITHUB_SHA}
-          git push origin v$TAG
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          git tag -a $TAG -m "Published version $TAG" ${GITHUB_SHA}
+          git push origin $TAG
       - name: Cut a new release
         uses: softprops/action-gh-release@v1
         with:
