@@ -24,7 +24,8 @@ jobs:
         run: zip WebSaver.zip /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug/
       - name: Tag the repository
         run: |
-          TAG=$(date -Iseconds)
+          # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
+          TAG=$(date -Iseconds | sed 's/[T:\+]/-/g')
           git tag -a v$TAG -m "Published version $TAG" ${GITHUB_SHA}
           git push origin v$TAG
       - name: Cut a new release
