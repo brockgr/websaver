@@ -13,5 +13,8 @@ jobs:
           scheme: WebSaver
           destination: platform=macOS
           action: build
-      - name: Tree the repository directory after the build
-        run: find /Users/runner/Library/Developer/Xcode/DerivedData/
+      - name: Upload the build directory as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: WebSaver
+          path: /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug
