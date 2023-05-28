@@ -22,12 +22,13 @@ jobs:
           path: /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug
       - name: Pack the build directory for release
         run: zip WebSaver.zip /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug/
+      # Note https://github.com/rickstaa/action-create-tag doesn't work on macOS
       - name: Tag the repository
         run: |
           # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
           TAG=$(date -Iseconds | sed 's/[T:\+]/-/g')
           echo "$TAG"
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "tag=v$TAG" >> $GITHUB_OUTPUT
           git tag -a v$TAG -m "Published version $TAG" ${GITHUB_SHA}
           git push origin v$TAG
       - name: Cut a new release
