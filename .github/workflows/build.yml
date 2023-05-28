@@ -23,6 +23,6 @@ jobs:
       - name: Pack the build directory for release
         run: zip WebSaver.zip /Users/runner/Library/Developer/Xcode/DerivedData//WebSaver-dnfwrjsdcytbqjcmuceoafwrnokj/Build/Products/Debug/
       - name: Cut a new release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v1
         with:
-          artifacts: WebSaver.zip
+          files: WebSaver.zip
